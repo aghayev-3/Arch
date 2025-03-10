@@ -33,6 +33,7 @@ Many thanks to Learn Linux TV
 * Typically, wired interfaces are named `eth0`, `enpXsY`, or similar, while wireless interfaces are usually named `wlan0, wlpXsY`, or similar. 
 
 ## Partitioning our Disk
+* Make sure you check out this [video](https://www.youtube.com/watch?v=2Z6ouBYfZr8) if you want to understand storage volumes and formatting in depth :)
 * We need to know the device identifier for the hard drive where we want to install Arch
 * run `lsblk` to show all the storage volumes on the computer and note the name of the drive (common ones are nvmeX and sdX)
 * You should be able to tell which one is the computer hard drive by its size :)
@@ -113,6 +114,22 @@ Many thanks to Learn Linux TV
     * Compatibility: Works with various file systems and is widely supported in Linux distributions.
     * Security: Uses strong encryption algorithms to safeguard data from unauthorized access.
 * LUKS is commonly used to enhance data security on laptops and servers.
+
+## Configuring LVM
+* Let's configure LVM on the third partition
+* Make sure you check out the [LVM video](https://www.youtube.com/watch?v=MeltFN-bXrQ) if you want to understand LVM in depth
+* We need to create a physical volume first
+* `pvcreate /dev/mapper/lvm` (/dev/mapper/lvm is the name of the encrypted third drive)
+* `vgcreate volgroup0 /dev/mapper/lvm ` to create a volume group
+
+
+### Notes:
+* LVM (Logical Volume Manager) is a system for managing disk storage in Linux. It provides:
+    * Flexible Storage Management: Allows you to create, resize, and delete logical volumes easily.
+    * Dynamic Allocation: Enables the allocation of disk space on-the-fly without needing to repartition.
+    * Snapshots: Supports creating snapshots of volumes for backups or recovery.
+    * Volume Grouping: Combines multiple physical disks into a single logical volume group for easier management.
+* LVM enhances the flexibility and efficiency of managing disk space in Linux systems.
 
 
 
