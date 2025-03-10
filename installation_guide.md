@@ -189,9 +189,57 @@ Many thanks to Learn Linux TV
     * Flexibility: Some systems use the `wheel` group, while others use the `sudo` group. It depends on the distribution and how it’s set up    
     * Compatibility: The wheel group is still around for compatibility with older systems.
 
+## Install Basic Packages
+* `pacman -S base-devel dosfstools grub efibootmgr lvm2 mtools nano networkmanager openssh` will install most of the packages you need
+* `pacman` is the installation tool for Arch Linux and other Arch-based distributions :)
 
+## Install the Linux kernel and firmware
+* `pacman -S linux linux-headers` to install the linux kernel 
+* `pacman -S linux-firmware` to install the firware
 
+### Notes:
+* The kernel is the fundamental part of an operating system that enables it to function by managing hardware and system resources, making it essential for the overall operation of the OS.
+* Firmware is a type of software that is embedded into hardware devices to control and manage their functions. 
+* `linux-firmware` provides additional firmware files that the Linux kernel can load when needed.
 
+## Install GPU files
+* `lspci` to list the PCI devices
+* If you have an Intel or AMD GPU use `pacman -S mesa`
+* If you have an Nvidia GPU use `pacman -S nvidia nvidia-utils`
+* If you need support for accelerated video decoding, consider installing these packages:
+    * Intel (Broadwell and newer): `intel-media-driver`
+    * Intel GMA 4500 up to Coffee Lake: `libva-mesa-driver`
+    * AMD: `libva-mesa-driver`
+    * Nvidia: Already taken care of with `nvida-utils`
+
+### Notes:
+* PCI (Peripheral Component Interconnect) devices are hardware components that connect to a computer's motherboard via the PCI bus. This bus allows for communication between the motherboard and various peripheral devices. Examples of PCI devices:
+    * Graphics cards (GPUs)
+    * Network interface cards (NICs)
+    * Sound cards
+    * Storage controllers (e.g., SATA, SCSI)
+    * USB expansion cards
+    * Modems
+
+* Hardware Decoding is the use of dedicated hardware to decode video data, providing benefits such as improved performance, power efficiency, and support for high-resolution video playback. It is widely used in devices like TVs, smartphones, and computers to enhance the viewing experience.
+
+## Edit mkinitcpio.conf
+* `vim /etc/mkinitcpio.conf` to configure how the initramfs is built. (You can also use `nano` to edit files)
+* Go to the line that is uncommented and starts with `HOOKS` 
+* Add `encrypt lvm2` in between `block` and `filesystems`
+
+### Notes:
+* `mkinitcpio.conf` file is used to configure the `mkinitcpio` tool, which is responsible for `initramfs` 
+* `initramfs` stands for initial RAM filesystem. It is a temporary filesystem that is loaded into memory during the boot process of a Linux system. 
+* The primary purpose of `initramfs` is to provide a minimal environment that allows the Linux kernel to initialize the system and mount the root filesystem.
+* The `HOOKS` line in `mkinitcpio.conf` specifies the order of hooks which are modules and scripts that will be included in the initramfs. 
+* The hooks determine what actions are taken during the boot process.
+
+## Generate kernel ramdisks
+* `mkinitcpio -p linux` to generate `initramfs`
+* Edit `/etc/locale.gen` file and uncomment the line `en_US.UTF-8` (delete the `#` symbol at the beginning of the line)
+* `locale-gen` to generate the locale
+* Locales define language and regional settings, such as date formats, currency, and character encoding
 
 
 
