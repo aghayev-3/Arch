@@ -241,6 +241,27 @@ Many thanks to Learn Linux TV
 * `locale-gen` to generate the locale
 * Locales define language and regional settings, such as date formats, currency, and character encoding
 
+## Set up GRUB
+* `vim /etc/default/grub` to edit the grub config file :)
+*  Look for a line containing `GRUB_CMDLINE_LINUX_DEFAULT` and add `cryptdevice=/dev/<partition_3>:<volume_group_name>` to the end of it. So, something like this `cryptdevice=/dev/nvme0n1p3:volgroup0` 
+* `mkdir /boot/EFI` to create the `EFI` directory 
+* `mount /dev/<partition_1> /boot/EFI` to mount the EFI partition at `/boot/EFI` 
+* Install `GRUB` using `grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck`
+* `cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo` to copy locale files for GRUB’s messaging to our boot directory
+* `grub-mkconfig -o /boot/grub/grub.cfg` to generate a config file for GRUB :)
+* `systemctl enable NetworkManager` to enable NetworkManager so we can set up connectivity after boot (kinda important lol) :)
+
+### Notes:
+* GRUB, which stands for Grand Unified Bootloader, is a program that helps your computer start up. When you turn on your computer, GRUB is the first thing that runs. It allows you to choose which operating system to boot if you have more than one installed. GRUB also loads the necessary files to start the operating system you select. 
+* The EFI (Extensible Firmware Interface) partition is a small section of a hard drive that is used in systems with UEFI (Unified Extensible Firmware Interface) firmware. It stores bootloaders for operating systems, allowing the system to start up properly. 
+
+## The FINISH Line :)
+* `exit` to exit the chroot environment
+* `umount -a` to unmount all partitions 
+* REBOOT :) (lol the command is `reboot`)
+
+Please check out all the videos from the following [playlist](https://www.youtube.com/watch?v=RcFlZjpvf0U&list=PLT98CRl2KxKHKd_tH3ssq0HPrThx2hESW). Learn Linux TV is an absolutely amazing channel that helped me start my Linux journey :)
+
 
 
 
