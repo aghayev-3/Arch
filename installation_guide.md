@@ -167,6 +167,27 @@ Many thanks to Learn Linux TV
     * Package Installation: You can install packages and modify system files directly in the new environment.
 * In short, `arch-chroot` helps you set up and manage the new Arch Linux system effectively.
 
+## Setting up Users
+* `passwd` to set a password for the root account
+* `useradd -m -g users -G wheel <username>` to add a user and include it in the `wheel` group
+* `passwd <user>` to change the password for the user account :)
+
+### Notes:
+* The `wheel` group is used to manage and restrict administrative access, allowing only designated users to perform tasks that require elevated privileges.
+
+* `wheel` Group:
+    * Purpose: Traditionally used to grant users administrative access.
+    * Usage: In some systems, only users in the `wheel` group can use the `sudo` command to perform tasks as the root user.
+    * History: It comes from older Unix systems and is still used in some Linux distributions (like Arch Linux).
+
+* `sudo` Group:
+    * Purpose: A more modern way to grant users administrative access.
+    * Usage: In many distributions (like Ubuntu), users in the `sudo` group can use the `sudo` command to run commands with elevated privileges.
+    * Simplicity: It simplifies management of who can perform administrative tasks.
+
+* Why Both?
+    * Flexibility: Some systems use the `wheel` group, while others use the `sudo` group. It depends on the distribution and how it’s set up    
+    * Compatibility: The wheel group is still around for compatibility with older systems.
 
 
 
