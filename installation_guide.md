@@ -22,7 +22,7 @@ Many thanks to Learn Linux TV
 * If it shows an IP iddress on either the wired or wireless interface you are connected to the Internet and should be good to go :)
 * Here is how to connect to Wi-Fi:
 * `ip addr show` and note the name of the wireless interface
-* run `iwctl` to open a wireless connectivity tool (the prompt will change)
+* run `iwctl` to open a wireless connectivity tool (the prompt will change to `[iwd]#`)
 * run `station <name_of_your_wireless_interface> get-networks` to get the name of all the available networks on that interface
 * run `station <name_of_your_wireless_interface> connect <name_of_your_network>` and enter the password once prompted
 * run `exit` to exit the `iwctl` utility
@@ -36,7 +36,11 @@ Many thanks to Learn Linux TV
 * We need to know the device identifier for the hard drive where we want to install Arch
 * run `lsblk` to show all the storage volumes on the computer and note the name of the drive (common ones are nvmeX and sdX)
 * You should be able to tell which one is the computer hard drive by its size :)
-* run `fdisk /dev/<drive_name> to partition the drive 
+* run `fdisk /dev/<drive_name> to partition the drive (do not pick a partition like `sda1` or `nvme0n1p1`, you need the whole disk, like `sda` or `nvme0n1`)
+* The prompt should change to `Command (m for help)`
+* type `p` to check the current partition layout
+* type `g` to create a new partiton table
+
 
 ### Notes:
 * Why even partition the disk?
@@ -44,6 +48,15 @@ Many thanks to Learn Linux TV
     * Security: Isolates critical files from user data.
     * Backup and Recovery: Simplifies backing up specific data.
     * Multiple Operating Systems: Allows installation of multiple OSes.
+* What is a partition table?
+    * A partition table is a data structure on a storage device (like a hard drive or SSD) that defines how the drive is divided into partitions. It contains information about:
+        * Partition Size: The size of each partition.
+        * Partition Type: The file system type or purpose (e.g., primary, extended, logical).
+        * Starting and Ending Addresses: The locations on the disk where each partition begins and ends.
+        * Boot Information: Details about which partition is bootable.
+    * Common partition table formats include Master Boot Record (MBR) and GUID Partition Table (GPT). The partition table is essential for the operating system to manage and access the partitions on the drive.
+
+
 
 
 
