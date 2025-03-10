@@ -39,8 +39,27 @@ Many thanks to Learn Linux TV
 * run `fdisk /dev/<drive_name> to partition the drive (do not pick a partition like `sda1` or `nvme0n1p1`, you need the whole disk, like `sda` or `nvme0n1`)
 * The prompt should change to `Command (m for help)`
 * type `p` to check the current partition layout
-* type `g` to create a new partiton table
-
+* type `g` to create a new partiton table (GPT)
+* type `p` again and no partitions will be shown
+* type `n` to create a new partition 
+* type `Enter` to accept the default for the partition number
+* type `Enter` to accept the default first sector
+* type `+1G` to make its size 1G (it might ask you to override a previous signature, press `Y` to accept)
+* type `n` to create another partition
+* type `Enter` to accept the default
+* type `Enter` again to accept the default
+* type `+1G` to make its size 1G as well and remove the previous signature if prompted
+* type `p` to check what we have so far
+* type `n` to create a new partition 
+* type `Enter` to accept the default for the partition number
+* type `Enter` to accept the default first sector
+* type `Enter` to accept the default last sector which will use up all of our hard drive space
+* type `t` to change the type of a partition and select `3` 
+* type `L` to list all the types and note the number that corresponds to Linux LVM (in my case 44)
+* press `q` to exit the list and type the number that you noted (44)
+* type `p` to double check the partition layout
+* No changes have been written to the disk yet, you just created a layout for now :)
+* type `w` to write the changes to the disk. **There is no going back from this point on!!!!**
 
 ### Notes:
 * Why even partition the disk?
@@ -48,6 +67,7 @@ Many thanks to Learn Linux TV
     * Security: Isolates critical files from user data.
     * Backup and Recovery: Simplifies backing up specific data.
     * Multiple Operating Systems: Allows installation of multiple OSes.
+
 * What is a partition table?
     * A partition table is a data structure on a storage device (like a hard drive or SSD) that defines how the drive is divided into partitions. It contains information about:
         * Partition Size: The size of each partition.
@@ -55,6 +75,45 @@ Many thanks to Learn Linux TV
         * Starting and Ending Addresses: The locations on the disk where each partition begins and ends.
         * Boot Information: Details about which partition is bootable.
     * Common partition table formats include Master Boot Record (MBR) and GUID Partition Table (GPT). The partition table is essential for the operating system to manage and access the partitions on the drive.
+
+## Formatting our Partitions
+* Format the partitions to use FAT or ext4 filesystems
+* run `mkfs.fat -F32 /dev/<partition_1>` (this could be something like `sda1` or `nvme0n1p1`)
+* The command above makes the first partition a FAT filesystem
+* Make the second partition an ext4 filesystem
+* run `mkfs.ext4 /dev/<partition_2>` 
+* For now let's encrypt the 3rd partition, we'll format it later :)
+* run `cryptsetup luksFormat /dev/<partiton_3>` to encrypt the third partition using LUKS 
+* type `YES` to confirm LUKS encryption setup and create a passphrase
+* That passphrase will be used everytime you boot your computer, so don't forget it :)
+* Now the partition is encrypted but first we need to open it to be able to work with it
+* run `cryptsetup open --type luks /dev/<partition_3> <name>` (<name> gives the partition a name, you can use `lvm`, because we are going to format it to use Linux LVM)
+* type the password to unlock the partition
+
+### Notes:
+* Formatting a partition with mkfs.fat or mkfs.ext4 is essential for:
+    * Creating a File System: Enables the OS to manage files.
+    * Initializing Data Structures: Sets up necessary components for the file system.
+    * Clearing Previous Data: Removes existing data for a fresh start.
+    * Defining Storage Management: Establishes how data is stored and accessed.
+
+* FAT (File Allocation Table):
+    * Simple file system for flash drives and memory cards.
+    * Widely compatible with many devices.
+    * Limited file size (e.g., FAT32 has a 4GB limit).
+
+* ext4 (Fourth Extended File System):
+    * Advanced file system used in Linux.
+    * Supports large files and partitions.
+    * Includes journaling for better data safety and performance.
+
+* LUKS (Linux Unified Key Setup) is a standard for disk encryption in Linux. It provides:
+    * Full Disk Encryption: Secures entire partitions or drives to protect data.
+    * Key Management: Allows multiple user keys for accessing encrypted data.
+    * Compatibility: Works with various file systems and is widely supported in Linux distributions.
+    * Security: Uses strong encryption algorithms to safeguard data from unauthorized access.
+* LUKS is commonly used to enhance data security on laptops and servers.
+
 
 
 
