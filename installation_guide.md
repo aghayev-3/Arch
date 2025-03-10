@@ -129,6 +129,14 @@ Many thanks to Learn Linux TV
 * `modprobe dm_mod` to load the Device Mapper kernel module to Linux, don't worry about it too much, it makes LVM possible :)
 * `vgscan` to scan for volume groups
 * `vgchange -ay` to activate all volume groups
+* Now we can finish formatting the logical volumes as ext4
+* `mkfs.ext4 /dev/volgroup0/lv_root` and `mkfs.ext4 /dev/volgroup0/lv_home`
+* `mount /dev/volgroup0/lv_root /mnt` to mount the volume at /mnt
+* This makes the file system on that logical volume accessible at the /mnt directory.
+* `mkdir /mnt/boot` to create a boot directory to mount the boot partition
+* `mount /dev/<partition_2> /mnt/boot` to mount the partition at /mnt/boot
+* Don't worry about mounting the first partition for now, we still have some work to do there :)
+* `mkidr /mnt/home` and `mount /dev/volgroup0/lv_home /mnt/home` to mount home volume at /mnt/home
 
 ### Notes:
 
@@ -138,6 +146,28 @@ Many thanks to Learn Linux TV
     * Snapshots: Supports creating snapshots of volumes for backups or recovery.
     * Volume Grouping: Combines multiple physical disks into a single logical volume group for easier management.
 * LVM enhances the flexibility and efficiency of managing disk space in Linux systems.
+
+## Installing required packages
+* Now we can go on to install the system and all the required packages
+* `pacstap -i /mnt base` to install the base Arch system into the /mnt directory :)
+
+## Generate the fstab file
+* `genfstab -U -p /mnt >> /mnt/etc/fstab` generates a file system table (fstab) for the newly installed Linux system
+* This is required for mounting partitions at boot time :)
+* `cat /mnt/etc/fstab` You should see three partitions listed in the file 
+
+## Using arch-chroot to finish the installation
+* Log into the in-progress Arch system to make configure some more things :)
+* `arch-chroot /mnt` will do just that and the prompt will change to `[root@archiso /]#`
+
+### Notes:
+* `arch-chroot` is used to change the root directory to a specified location (like the new system's root) during the Arch Linux installation. Why Use chroot?
+    * Configuration: It allows you to configure the new system as if you are running it, making it easier to set up.
+    * Isolation: Changes made in the chroot environment only affect the new installation, not the host system.
+    * Package Installation: You can install packages and modify system files directly in the new environment.
+* In short, `arch-chroot` helps you set up and manage the new Arch Linux system effectively.
+
+
 
 
 
