@@ -123,7 +123,7 @@ Many thanks to Learn Linux TV
 * `vgcreate volgroup0 /dev/mapper/lvm ` to create a volume group and name it `volgroup0`
 * `lvcreate -L 30GB volgroup0 -n lv_root` to create a logical volume within `volgroup0` with size `30G` and name `lv_root`
 * Think of a logical volume as partition in the usual sense, that's what we're going to be formatting and using :)
-* `lvcreate -l 100%FREE -volgroup0 -n lv_home` to allocate the remaining disk space to logical volume `lv_home`
+* `lvcreate -l 100%FREE volgroup0 -n lv_home` to allocate the remaining disk space to logical volume `lv_home`
 * `vgdisplay` to show all the volume groups
 * `lvdisplay` to show all logical volumes, which should have `lv_root` and `lv_home`
 * `modprobe dm_mod` to load the Device Mapper kernel module to Linux, don't worry about it too much, it makes LVM possible :)
