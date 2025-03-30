@@ -190,7 +190,7 @@ Many thanks to Learn Linux TV
     * Compatibility: The wheel group is still around for compatibility with older systems.
 
 ## Install Basic Packages
-* `pacman -S base-devel dosfstools grub efibootmgr lvm2 mtools nano networkmanager openssh` will install most of the packages you need
+* `pacman -S base-devel dosfstools grub efibootmgr lvm2 mtools nano networkmanager openssh sudo` will install most of the packages you need
 * `pacman` is the installation tool for Arch Linux and other Arch-based distributions :)
 
 ## Install the Linux kernel and firmware
